@@ -9,6 +9,7 @@ const OUTPUT_DIR = path.resolve(__dirname, "output");
 const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
+const { resolve } = require("path");
 
 
 // Write code to use inquirer to gather information about the development team members,
@@ -17,7 +18,8 @@ const render = require("./lib/htmlRenderer");
 // Initialize the application
 function init() {
     // Prompt user for input response
-    inquirer.prompt([
+    inquirer
+        .prompt([
         {
             type: 'input',
             name: 'teamName',
@@ -27,16 +29,32 @@ function init() {
             type: 'list',
             name: 'teamMember',
             message: 'Add a team member:',
-            choices: ['Manager', 'Engineer', 'Intern'];
+            choices: ['Manager', 'Engineer', 'Intern'],
+        },
+        .then(answers => {
+            switch (answers) {
+                case 'Manager':
+                    inquirer.prompt(
+                        type: 'input',
+                        name: 'managerName', 
+                        empId: 'Enter Employee ID:',
+                    )
+            }
+        }
+            inquirer
+            .prompt(
+
+            )
+        //If Manager
+
+        {
+            type: 'input',
+            name: 'employeeName',
+            message: "Enter name of Manager:",
         },
         {
             type: 'input',
-            name: 'installInstructions',
-            message: 'Install Instructions:',
-        },
-        {
-            type: 'input',
-            name: 'usage',
+            name: 'employeeID',
             message: 'Usage Instructions:',
         },
         {
@@ -83,11 +101,39 @@ init();
 // above) and pass in an array containing all employee objects; the `render` function will
 // generate and return a block of HTML including templated divs for each employee!
 
+const generateHTML = (answers) =>
+  `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  <title>Document</title>
+</head>
+<body>
+  <div class="jumbotron jumbotron-fluid">
+  <div class="container">
+    <h1 class="display-4">Hi! My name is ${answers.name}</h1>
+    <p class="lead">I am from ${answers.location}.</p>
+    <h3>Example heading <span class="badge badge-secondary">Contact Me</span></h3>
+    <ul class="list-group">
+      <li class="list-group-item">My GitHub username is ${answers.github}</li>
+      <li class="list-group-item">LinkedIn: ${answers.linkedin}</li>
+    </ul>
+  </div>
+</div>
+</body>
+</html>`;
+
 // After you have your html, you're now ready to create an HTML file using the HTML
 // returned from the `render` function. Now write it to a file named `team.html` in the
 // `output` folder. You can use the variable `outputPath` above target this location.
 // Hint: you may need to check if the `output` folder exists and create it if it
 // does not.
+
+fs.writeFile('index.html', htmlPageContent, (err) =>
+err ? console.log(err) : console.log('Successfully created index.html!')
+);
 
 // HINT: each employee type (manager, engineer, or intern) has slightly different
 // information; write your code to ask different questions via inquirer depending on

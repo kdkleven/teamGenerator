@@ -5,7 +5,9 @@ class Employee {
         const fullName = fullName; 
         const id = id;
         const email = email;
+        const type = type;
     }
 };
 
 module.exports = Employee;
+

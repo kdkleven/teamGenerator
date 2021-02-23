@@ -10,14 +10,14 @@ class Intern extends Employee {
     this.fullName = fullName;
     this.id = id;
     this.email = email;
+  }
 
-    printStats() {
-      console.log(`\n Intern`);
-      console.log(`\n ID: ${this.id}`);
-      console.log(`\n Email: ${this.email}`);
-      console.log(`\n School: ${this.school}`);
-    }
+  printMember() {
+    console.log(`\n Intern`);
+    console.log(`\n ID: ${this.id}`);
+    console.log(`\n Email: ${this.email}`);
+    console.log(`\n School: ${this.school}`);
   }
 }
 
-const vintern = new Intern('Vintern', '30', 'vintern@example.com', 'uofm');
+const internJoe = new Intern('Vintern', '30', 'vintern@example.com', 'uofm');
