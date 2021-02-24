@@ -22,66 +22,77 @@ function init() {
         .prompt([
         {
             type: 'input',
-            name: 'teamName',
+            name: 'team',
             message: 'Enter your team name:',
         },
         {
             type: 'list',
             name: 'teamMember',
             message: 'Add a team member:',
-            choices: ['Manager', 'Engineer', 'Intern'],
+            choices: ['Manager', 'Engineer', 'Intern', 'Stop'],
         },
-        .then(answers => {
-            switch (answers) {
-                case 'Manager':
-                    inquirer.prompt(
-                        type: 'input',
-                        name: 'managerName', 
-                        empId: 'Enter Employee ID:',
-                    )
-            }
-        }
-            inquirer
-            .prompt(
-
-            )
-        //If Manager
-
+        // MANAGER
         {
             type: 'input',
-            name: 'employeeName',
-            message: "Enter name of Manager:",
+            name: 'name',
+            message: "Enter the employee's name:",
         },
         {
             type: 'input',
             name: 'employeeID',
-            message: 'Usage Instructions:',
-        },
-        {
-            type: 'list',
-            name: 'license',
-            message: 'License:',
-            choices: ['Apache License 2.0', 'GNU General Public License v3.0', 'MIT License', 'BSD 2-Clause "Simplified" License', 'BSD 3-Clause "New" or "Revised" License', 'Boost Software License 1.0', 'Creative Commons Zero v1.0 Universal', 'Eclipse Public License 1.0', 'GNU Affero General Public License v3.0', 'GNU General Public License v2.0', 'GNU Lesser General Public License v3', 'Mozilla Public License 2.0', 'The Unlicense', ''],
-        },
-        {
-            type: 'input',
-            name: 'contributionGuidelines',
-            message: 'Contribution Guidelines:',
-        },
-        {
-            type: 'input',
-            name: 'testInstructions',
-            message: 'Test Instructions:',
-        },
-        {
-            type: 'input',
-            name: 'gitHubUser',
-            message: 'GitHub Username:',
+            message: 'Enter Employee ID:',
         },
         {
             type: 'input',
             name: 'email',
-            message: 'Email Address:',
+            message: "Enter email:",
+        },
+        {
+            type: 'input',
+            name: 'office',
+            message: "Enter office number:",
+        },
+        // ENGINEER
+        {
+            type: 'input',
+            name: 'employeeName',
+            message: "Enter the employee's name:",
+        },
+        {
+            type: 'input',
+            name: 'employeeID',
+            message: 'Enter Employee ID:',
+        },
+        {
+            type: 'input',
+            name: 'email',
+            message: "Enter email:",
+        },
+        {
+            type: 'input',
+            name: 'github',
+            message: "Enter GitHub username:",
+        },
+        // INTERN
+        {
+            type: 'input',
+            name: 'employeeName',
+            message: "Enter the employee's name:",
+        },
+        {
+            type: 'input',
+            name: 'employeeID',
+            message: 'Enter Employee ID:',
+        },
+        {
+            type: 'input',
+            name: 'email',
+            message: "Enter email:",
+        },
+        {
+            type: 'input',
+            name: 'school',
+            message: "Enter the school:",
         },
     ]).then((response) => {
         // Assign variable to the user's response object
@@ -93,8 +104,6 @@ function init() {
 
 // Call intializer function
 init();
-
-
 
 
 // After the user has input all employees desired, call the `render` function (required

@@ -5,19 +5,13 @@ const Employee = require('./Employee');
 
 class Manager extends Employee {
   constructor(officeNumber) {
-    const officeNumber = officeNumber;
-    super(fullName, id, email);
-    this.fullName = fullname;
+   officeNumber = officeNumber;
+    super(name, id, email, type);
+    this.name = name;
     this.id = id;
     this.email = email;
-  }
-  printMember() {
-    console.log(`\n Intern`);
-    console.log(`\n ID: ${this.id}`);
-    console.log(`\n Email: ${this.email}`);
-    console.log(`\n School: ${this.school}`);
+    this.type = type;
   }
 }
 
-const manager = new Manager('Jeff', 1, 'test@example.com', 204);
-//manager.printInfo();
+module.exports = Manager;
