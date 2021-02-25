@@ -11,8 +11,9 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 const render = require("./lib/htmlRenderer");
 const { resolve } = require("path");
 const { finished } = require("stream");
+const { resolveSoa } = require("dns");
 
-const team = [];
+const employees = [];
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
 
@@ -25,9 +26,10 @@ function init() {
             name: 'team',
             message: 'Enter your team name:',
         }
-    ]).then((response) => {
+    ]).then((res) => {
         // Assign variable to the user's response object
-        team.push(response.team);
+        employees.push(res.team);
+        console.log(employees);
         newManager();
     });
 }
@@ -55,11 +57,11 @@ function newManager() {
             name: 'officeNumber',
             message: "Enter office number:",
         }
-    ]).then((managerResponse) => {
-        const newManager = new Manager(response.name, response.id, response.email, response.officeNumber);
+    ]).then((res) => {
+        const newManager = new Manager(res.name, res.id, res.email, res.officeNumber);
         
-        team.push(managerResponse);
-        console.log(team);
+        employees.push(newManager);
+        console.log(employees);
         newMember();
     });
 }
@@ -68,36 +70,37 @@ function newMember() {
     inquirer.prompt([
         {
             type: 'list',
-            name: 'members',
+            name: 'newMember',
             message: 'Add a new team member:',
-            choices: ['Engineer', 'Intern', 'Finalize'],
+            choices: ['Engineer', 'Intern', 'Finish'],
         }
-    ]).then((response) => {
-        switch (response) {
-            case 'Engineer':
-                newEngineer();
-                break;
-            case 'Intern':
-                newIntern();
-                break;
-            default:
-                finalizeTeam();
+    ]).then((res) => {
+        
+        if (res.newMember === 'Engineer') {
+            console.log(res);
+            newEngineer();
+        } 
+        else if (res.newMember === 'Intern') {
+            console.log(res);
+            newIntern();
         }
+        else {
+            console.log(res);
+            renderTeam();
+        }    
     });
 }
 
 function newEngineer() {
     inquirer.prompt([
-          
-    // ENGINEER
         {
             type: 'input',
-            name: 'employeeName',
+            name: 'name',
             message: "Enter the employee's name:",
         },
         {
             type: 'input',
-            name: 'employeeID',
+            name: 'id',
             message: 'Enter Employee ID:',
         },
         {
@@ -109,20 +112,27 @@ function newEngineer() {
             type: 'input',
             name: 'github',
             message: "Enter GitHub username:",
-        },
+        }
+    ]).then((res) => {
+        const newEngineer = new Engineer(res.name, res.id, res.email, res.github);
         
-    ]).then((response) => )
+        employees.push(newEngineer);
+        console.log(employees);
+        newMember();
+    });
 }
 
 function newIntern() {
+    console.log("newIntern");
+    inquirer.prompt([  
         {
             type: 'input',
-            name: 'employeeName',
+            name: 'name',
             message: "Enter the employee's name:",
         },
         {
             type: 'input',
-            name: 'employeeID',
+            name: 'id',
             message: 'Enter Employee ID:',
         },
         {
@@ -134,66 +144,36 @@ function newIntern() {
             type: 'input',
             name: 'school',
             message: "Enter the school:",
-        },
+        }
+    ]).then((res) => {
+        const newIntern = new Intern(res.name, res.id, res.email, res.school);
+        
+        employees.push(newIntern);
+        console.log(employees);
+        newMember();
+    });
 }
-
-function finalizeTeam() {
-
-
-}
-
-        // {
-        //     type: '',
-        // },
-
-        // // INTERN
-
-  
-       
-
-        // Call function to write the README.md file
-        // writeToFile(readmePageContent);
-
-// Call intializer function
-init();
 
 // After the user has input all employees desired, call the `render` function (required
 // above) and pass in an array containing all employee objects; the `render` function will
 // generate and return a block of HTML including templated divs for each employee!
 
-// const generateHTML = (answers) =>
-//   `<!DOCTYPE html>
-// <html lang="en">
-// <head>
-//   <meta charset="UTF-8">
-//   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-//   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-//   <title>Document</title>
-// </head>
-// <body>
-//   <div class="jumbotron jumbotron-fluid">
-//   <div class="container">
-//     <h1 class="display-4">Hi! My name is ${answers.name}</h1>
-//     <p class="lead">I am from ${answers.location}.</p>
-//     <h3>Example heading <span class="badge badge-secondary">Contact Me</span></h3>
-//     <ul class="list-group">
-//       <li class="list-group-item">My GitHub username is ${answers.github}</li>
-//       <li class="list-group-item">LinkedIn: ${answers.linkedin}</li>
-//     </ul>
-//   </div>
-// </div>
-// </body>
-// </html>`;
+function renderTeam() {
+    render(employees);
+    fs.writeFile(`${OUTPUT_DIR}/${outputPath}`, (err) =>
+    err ? console.log(err) : console.log('Successfully created team!')
+    );
+}
 
-// // After you have your html, you're now ready to create an HTML file using the HTML
-// // returned from the `render` function. Now write it to a file named `team.html` in the
-// // `output` folder. You can use the variable `outputPath` above target this location.
-// // Hint: you may need to check if the `output` folder exists and create it if it
-// // does not.
+// Call intializer function
+init();
 
-// fs.writeFile('index.html', htmlPageContent, (err) =>
-// err ? console.log(err) : console.log('Successfully created index.html!')
-// );
+
+// After you have your html, you're now ready to create an HTML file using the HTML
+// returned from the `render` function. Now write it to a file named `team.html` in the
+// `output` folder. You can use the variable `outputPath` above target this location.
+// Hint: you may need to check if the `output` folder exists and create it if it
+// does not.
 
 // HINT: each employee type (manager, engineer, or intern) has slightly different
 // information; write your code to ask different questions via inquirer depending on
