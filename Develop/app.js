@@ -13,23 +13,23 @@ const { resolve } = require("path");
 const { finished } = require("stream");
 const { resolveSoa } = require("dns");
 
-const employees = [];
+
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
-
+const team = [];
 // Initialize the application
 function init() {
     // Prompt user for input response
     inquirer.prompt([
         {
             type: 'input',
-            name: 'team',
+            name: 'teamName',
             message: 'Enter your team name:',
         }
     ]).then((res) => {
         // Assign variable to the user's response object
-        employees.push(res.team);
-        console.log(employees);
+        team.push(res.teamName);
+        // console.log(employees);
         newManager();
     });
 }
@@ -45,49 +45,24 @@ function newManager() {
         {
             type: 'input',
             name: 'id',
-            message: 'Enter Employee ID:',
+            message: "Enter Manager's ID:",
         },
         {
             type: 'input',
             name: 'email',
-            message: "Enter email:",
+            message: "Enter Manager's email:",
         },
         {
             type: 'input',
             name: 'officeNumber',
-            message: "Enter office number:",
+            message: "Enter Manager's office number:",
         }
     ]).then((res) => {
-        const newManager = new Manager(res.name, res.id, res.email, res.officeNumber);
+        const manager = new Manager(res.name, res.id, res.email, res.officeNumber);
         
-        employees.push(newManager);
-        console.log(employees);
+        team.push(manager);
+        // console.log(employees);
         newMember();
-    });
-}
-
-function newMember() {
-    inquirer.prompt([
-        {
-            type: 'list',
-            name: 'newMember',
-            message: 'Add a new team member:',
-            choices: ['Engineer', 'Intern', 'Finish'],
-        }
-    ]).then((res) => {
-        
-        if (res.newMember === 'Engineer') {
-            console.log(res);
-            newEngineer();
-        } 
-        else if (res.newMember === 'Intern') {
-            console.log(res);
-            newIntern();
-        }
-        else {
-            console.log(res);
-            renderTeam();
-        }    
     });
 }
 
@@ -96,28 +71,28 @@ function newEngineer() {
         {
             type: 'input',
             name: 'name',
-            message: "Enter the employee's name:",
+            message: "Enter the Engineer's name:",
         },
         {
             type: 'input',
             name: 'id',
-            message: 'Enter Employee ID:',
+            message: "Enter Engineer's ID:",
         },
         {
             type: 'input',
             name: 'email',
-            message: "Enter email:",
+            message: "Enter Engineer's email:",
         },
         {
             type: 'input',
             name: 'github',
-            message: "Enter GitHub username:",
+            message: "Enter Engineer's GitHub username:",
         }
     ]).then((res) => {
-        const newEngineer = new Engineer(res.name, res.id, res.email, res.github);
+        const engineer = new Engineer(res.name, res.id, res.email, res.github);
         
-        employees.push(newEngineer);
-        console.log(employees);
+        team.push(engineer);
+        // console.log(employees);
         newMember();
     });
 }
@@ -128,29 +103,54 @@ function newIntern() {
         {
             type: 'input',
             name: 'name',
-            message: "Enter the employee's name:",
+            message: "Enter the Intern's name:",
         },
         {
             type: 'input',
             name: 'id',
-            message: 'Enter Employee ID:',
+            message: "Enter the Intern's ID:",
         },
         {
             type: 'input',
             name: 'email',
-            message: "Enter email:",
+            message: "Enter the Intern's email:",
         },
         {
             type: 'input',
             name: 'school',
-            message: "Enter the school:",
+            message: "Enter the Intern's school:",
         }
     ]).then((res) => {
-        const newIntern = new Intern(res.name, res.id, res.email, res.school);
+        const intern = new Intern(res.name, res.id, res.email, res.school);
         
-        employees.push(newIntern);
-        console.log(employees);
+        team.push(intern);
+        // console.log(employees);
         newMember();
+    });
+}
+
+function newMember() {
+    inquirer.prompt([
+        {
+            type: 'list',
+            name: 'newMember',
+            message: 'Add a new team member:',
+            choices: ['Engineer', 'Intern', new inquirer.Separator(), 'Render'],
+        }
+    ]).then((res) => {
+        
+        if (res.newMember === 'Engineer') {
+            // console.log(res);
+            newEngineer();
+        } 
+        else if (res.newMember === 'Intern') {
+            // console.log(res);
+            newIntern();
+        }
+        else {
+            // console.log(res);
+            render(team);
+        }    
     });
 }
 
@@ -158,12 +158,12 @@ function newIntern() {
 // above) and pass in an array containing all employee objects; the `render` function will
 // generate and return a block of HTML including templated divs for each employee!
 
-function renderTeam() {
-    render(employees);
-    fs.writeFile(`${OUTPUT_DIR}/${outputPath}`, (err) =>
-    err ? console.log(err) : console.log('Successfully created team!')
-    );
-}
+// function renderTeam() {
+    
+//     // fs.writeFile(`${OUTPUT_DIR}/${outputPath}`, (err) =>
+//     // err ? console.log(err) : console.log('Successfully created team!')
+//     // );
+// }
 
 // Call intializer function
 init();
