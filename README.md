@@ -19,12 +19,21 @@ This is a Node CLI application designed to prompt the user for information about
 
 ## Install Instructions
 
-TBD
+Node.js and Inquirer are required for this application to run. Pull down the repository and run the following command to install dependencies:
+
+    npm i
   
+This will install Inquirer and Jest.
+
 ## Usage Instructions
 
-TBD
+Open an integrated terminal or bash command prompt and run the following command from the /develop directory:
 
+    node app.js
+
+Then answer each question to build your team. After adding a Manager, select Engineer or Intern to add a new member with that role. When you're finished, select 'Render'.
+
+Your generated team.html file can then be found in the /output folder.
 
 ## License
   
@@ -35,11 +44,15 @@ This application is licensed under MIT License.
 
 ## Contribution Guidelines
 
-TBD
+Contributors are welcome. Just remember, this is open source software. Consider the people who will read your code, and make it look nice for them. It's sort of like driving a car: Perhaps you love doing donuts when you're alone, but with passengers the goal is to make the ride as smooth as possible.
 
 ## Test Instructions
 
-TBD
+Jest is required to execute tests. Current tests can be found in the /test folder. To run tests, open the terminal and run the following command:
+
+    npm run test
+
+Test results will be displayed in the terminal.
 
 ## Questions
 

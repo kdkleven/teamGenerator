@@ -1,3 +1,4 @@
+const Team = require("./lib/Team");
 const Manager = require("./lib/Manager");
 const Engineer = require("./lib/Engineer");
 const Intern = require("./lib/Intern");
@@ -19,7 +20,7 @@ const { resolveSoa } = require("dns");
 const employees = [];
 // Initialize the application
 function init() {
-    // Prompt user for input response
+    // Prompt user for input response and team name
     inquirer.prompt([
         {
             type: 'input',
@@ -28,12 +29,15 @@ function init() {
         }
     ]).then((res) => {
         // Assign variable to the user's response object
-        // employees.push(res.teamName);
+        const team = new Team(res.teamName);
+        // push the team name to the employees array
+        employees.push(team);
         // console.log(employees);
         newManager();
     });
 }
 
+// ask for manager input
 function newManager() {
     inquirer.prompt([
         // MANAGER
@@ -58,14 +62,15 @@ function newManager() {
             message: "Enter Manager's office number:",
         }
     ]).then((res) => {
-        const employee = new Manager(res.name, res.id, res.email, res.officeNumber);
-        
-        employees.push(employee);
+        // create a new manager object
+        const manager = new Manager(res.name, res.id, res.email, res.officeNumber);
+        // push the manager object to the employees array
+        employees.push(manager);
         // console.log(employees);
         newMember();
     });
 }
-
+// ask for engineer input
 function newEngineer() {
     inquirer.prompt([
         {
@@ -89,14 +94,16 @@ function newEngineer() {
             message: "Enter Engineer's GitHub username:",
         }
     ]).then((res) => {
-        const employee = new Engineer(res.name, res.id, res.email, res.github);
-        
-        employees.push(employee);
+        // create a new engineer object
+        const engineer = new Engineer(res.name, res.id, res.email, res.github);
+        // push the engineer object to the employees array
+        employees.push(engineer);
         // console.log(employees);
         newMember();
     });
 }
 
+// ask for intern input
 function newIntern() {
     inquirer.prompt([  
         {
@@ -120,14 +127,16 @@ function newIntern() {
             message: "Enter the Intern's school:",
         }
     ]).then((res) => {
-        const employee = new Intern(res.name, res.id, res.email, res.school);
-        
-        employees.push(employee);
+        // create new intern object
+        const intern = new Intern(res.name, res.id, res.email, res.school);
+        // push intern object to employees array
+        employees.push(intern);
         // console.log(employees);
         newMember();
     });
 }
 
+// ask for new member
 function newMember() {
     inquirer.prompt([
         {
@@ -137,13 +146,15 @@ function newMember() {
             choices: ['Engineer', 'Intern', new inquirer.Separator(), 'Render'],
         }
     ]).then((res) => {
-        
+        // if selection is engineer, ask for new engineer input        
         if (res.newMember === 'Engineer') {
             newEngineer();
         } 
+        // if selection is intern, ask for new intern input
         else if (res.newMember === 'Intern') {
             newIntern();
         }
+        // if answer is 'render', call renderTeam function
         else {
             renderTeam();
         }    
@@ -155,19 +166,15 @@ function newMember() {
 // generate and return a block of HTML including templated divs for each employee!
 
 function renderTeam() {
+    // declare a variable containing the rendered output from employees data
     const data = render(employees);
-
+    // write the data to the file team.html
     fs.writeFile(outputPath, data, (err) =>
     err ? console.log(err) : console.log('Successfully created team!'));
 }
 
-
-
-
-
 // Call intializer function
 init();
-
 
 // After you have your html, you're now ready to create an HTML file using the HTML
 // returned from the `render` function. Now write it to a file named `team.html` in the

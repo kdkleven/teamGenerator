@@ -1,0 +1,14 @@
+.team-area {
+    display: flex;
+    float: none;
+    margin: 0 auto;
+    flex-wrap: wrap;
+}
+
+.employee-card {
+    width: 100%;
+    display: flex;
+    float: none;
+    margin: 0 auto;
+    flex-wrap: wrap;
+}
