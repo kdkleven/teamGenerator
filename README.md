@@ -35,6 +35,10 @@ Then answer each question to build your team. After adding a Manager, select Eng
 
 Your generated team.html file can then be found in the /output folder.
 
+## Demo
+
+<img src="develop/images/teamGeneratorDemo.gif" width="500" alt="application demo">
+
 ## License
   
 This application is licensed under MIT License.
