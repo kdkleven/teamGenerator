@@ -37,7 +37,7 @@ Your generated team.html file can then be found in the /output folder.
 
 ## Demo
 
-<iframe src="https://drive.google.com/file/d/1LNNcFnwNzFPwt9yZRmg9R663ApHkgXSH/preview" width="640" height="480"></iframe>
+https://youtu.be/qfqfmbeXKx4
 
 <img src="develop/images/teamGeneratorDemo.gif" width="500" alt="application demo">
 
