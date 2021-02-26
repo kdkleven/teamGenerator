@@ -39,7 +39,7 @@ Your generated team.html file can then be found in the /output folder.
 
 https://youtu.be/qfqfmbeXKx4
 
-<img src="develop/images/teamGeneratorDemo.gif" width="500" alt="application demo">
+<img src="Develop/images/teamGeneratorDemo.gif" width="500" alt="application demo">
 
 ## License
   
