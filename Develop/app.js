@@ -16,7 +16,7 @@ const { resolveSoa } = require("dns");
 
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
-const team = [];
+const employees = [];
 // Initialize the application
 function init() {
     // Prompt user for input response
@@ -28,7 +28,7 @@ function init() {
         }
     ]).then((res) => {
         // Assign variable to the user's response object
-        team.push(res.teamName);
+        // employees.push(res.teamName);
         // console.log(employees);
         newManager();
     });
@@ -58,9 +58,9 @@ function newManager() {
             message: "Enter Manager's office number:",
         }
     ]).then((res) => {
-        const manager = new Manager(res.name, res.id, res.email, res.officeNumber);
+        const employee = new Manager(res.name, res.id, res.email, res.officeNumber);
         
-        team.push(manager);
+        employees.push(employee);
         // console.log(employees);
         newMember();
     });
@@ -89,16 +89,15 @@ function newEngineer() {
             message: "Enter Engineer's GitHub username:",
         }
     ]).then((res) => {
-        const engineer = new Engineer(res.name, res.id, res.email, res.github);
+        const employee = new Engineer(res.name, res.id, res.email, res.github);
         
-        team.push(engineer);
+        employees.push(employee);
         // console.log(employees);
         newMember();
     });
 }
 
 function newIntern() {
-    console.log("newIntern");
     inquirer.prompt([  
         {
             type: 'input',
@@ -121,9 +120,9 @@ function newIntern() {
             message: "Enter the Intern's school:",
         }
     ]).then((res) => {
-        const intern = new Intern(res.name, res.id, res.email, res.school);
+        const employee = new Intern(res.name, res.id, res.email, res.school);
         
-        team.push(intern);
+        employees.push(employee);
         // console.log(employees);
         newMember();
     });
@@ -140,16 +139,13 @@ function newMember() {
     ]).then((res) => {
         
         if (res.newMember === 'Engineer') {
-            // console.log(res);
             newEngineer();
         } 
         else if (res.newMember === 'Intern') {
-            // console.log(res);
             newIntern();
         }
         else {
-            // console.log(res);
-            render(team);
+            renderTeam();
         }    
     });
 }
@@ -158,12 +154,16 @@ function newMember() {
 // above) and pass in an array containing all employee objects; the `render` function will
 // generate and return a block of HTML including templated divs for each employee!
 
-// function renderTeam() {
-    
-//     // fs.writeFile(`${OUTPUT_DIR}/${outputPath}`, (err) =>
-//     // err ? console.log(err) : console.log('Successfully created team!')
-//     // );
-// }
+function renderTeam() {
+    const data = render(employees);
+
+    fs.writeFile(outputPath, data, (err) =>
+    err ? console.log(err) : console.log('Successfully created team!'));
+}
+
+
+
+
 
 // Call intializer function
 init();
